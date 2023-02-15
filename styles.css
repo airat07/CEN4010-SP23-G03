@@ -1,0 +1,55 @@
+html {
+  background-color: rgba(220, 220, 220);
+}
+body {
+  background-color: rgb(220, 220, 220);
+}
+
+h1 {
+  background-color:  rgb(184,255,234);
+  color: grey;
+  font-family:sans-serif, helvetica;
+  padding-top: 15px;
+  padding-left: 850px;
+  padding-right: 800px;
+  padding-bottom: 15px;
+  font-size: 24px;
+  img {
+    padding-left: 700px;
+  }
+}
+img.profile {
+  padding-left: 700px;
+}
+h2 {
+  background-color: background-color: rgb(220, 220, 220);
+  color:rgb(184,255,234);
+  font-family:sans-serif, helvetica;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-size: 50px;
+}
+article{
+  font-family:sans-serif, helvetica;
+}
+p {
+  font-family:sans-serif, helvetica;
+}
+ul {
+  font-family:sans-serif, helvetica;
+}
+h3 {
+    color:white;
+    font-family:sans-serif, helvetica;
+    font-size: 50px;
+}
+
+img.twitch {
+  margin-left: 125px;
+}
+table,tr,th {
+  font-family:sans-serif, helvetica;
+  background-color: white;
+  border: 1px solid black;
+  margin-left: 175px;
+}
