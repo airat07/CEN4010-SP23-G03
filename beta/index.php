@@ -26,10 +26,11 @@
         //echo '<script>console.log("call from php successful!");</script>'; // if you're reading this... it was successful.
         
         $query = $_POST["searchbox"];
-        $sql_command = "SELECT * FROM images WHERE tags LIKE '%$query%'";
+        $sql_command = "SELECT * FROM images WHERE tags LIKE '%'$query'%'";
 
-        echo '<script>console.log("JS Console Log from PHP: Query string contains: $query");</script>';
-        echo '<script>console.log("$sql_command");';
+        echo "<script>console.log(\"JS Console Log from PHP: Query string contains: '$query'\");</script>"; // <-- works, note the escape slashes
+        echo "<script>console.log('$query');</script>"; // <-- works
+        // trying $sql_command here in lieu of $query leads to issues b/w single and double quotes but it should work in theory
 
     }
 
