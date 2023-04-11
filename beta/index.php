@@ -4,17 +4,6 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <meta charset="UTF-8" />
-        <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-        <meta
-            http-equiv="Content-Security-Policy"
-            content="default-src 'self'; script-src 'self'"
-        />
-        <meta
-            http-equiv="X-Content-Security-Policy"
-            content="default-src 'self'; script-src 'self'"
-        />
-
         <title>Demo (Hello world edition)</title>
 
         <link href="vendor/bootstrap.min.css" rel="stylesheet">
@@ -34,9 +23,13 @@
 
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        //$query = $_POST["searchbox"];
-        //$sql_command = "SELECT * FROM images WHERE tags LIKE '%$query%'";
-        echo '<script>console.log("call from php successful!");</script>';
+        //echo '<script>console.log("call from php successful!");</script>'; // if you're reading this... it was successful.
+        
+        $query = $_POST["searchbox"];
+        $sql_command = "SELECT * FROM images WHERE tags LIKE '%$query%'";
+
+        echo '<script>console.log("JS Console Log from PHP: Query string contains: $query");</script>';
+        echo '<script>console.log("$sql_command");';
 
     }
 
