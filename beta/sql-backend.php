@@ -27,6 +27,6 @@ function process_sql(b64)
     }
 
     // pass data off to thumbnail-grid
-    show_thumbnails(images_arr);
+    show_thumbnails(images_arr, tags_arr);
 
 }

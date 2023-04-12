@@ -4,7 +4,8 @@ console.log("test from thumbnail-grid.js");
 function set_thumbnail_callbacks_and_populate_tag_list(tags_arr)
 {
     // TODO: when clicking off a thumbnail (clicking on whitespace), show all tags for all listed images
-
+    
+    var grid = $("#thumbnail-grid");
     var thumbnails = $(".card-img-top");
     thumbnails.each(function(index)
     {
@@ -34,9 +35,9 @@ function set_thumbnail_callbacks_and_populate_tag_list(tags_arr)
 }
 
 // Add images to grid
-var grid = $("#thumbnail-grid");
 function show_thumbnails(images_arr, tags_arr)
 {
+    var grid = $("#thumbnail-grid");
     grid.html("");
     for (var i = 0; i < images_arr.length; i++)
     {
