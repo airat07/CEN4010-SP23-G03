@@ -9,6 +9,18 @@
         <link href="vendor/bootstrap.min.css" rel="stylesheet">
         <link href="ui.css" rel="stylesheet">
 
+        <!-- jQuery -->
+        <script src="vendor/jquery.min.js"></script>
+    
+        <!-- Bootstrap JS -->
+        <script src="vendor/bootstrap.bundle.min.js"></script>
+        
+        <!-- thumbnail grid -->
+        <script src="thumbnail-grid.js"></script>
+
+        <!-- sql to thumbnail grid interop -->
+        <script src="sql-backend.php"></script>
+
 
     </head>
     <body>
@@ -77,48 +89,30 @@
         </div>
         -->
 
-        <!-- jQuery -->
-        <script src="vendor/jquery.min.js"></script>
-    
-        <!-- Bootstrap JS -->
-        <script src="vendor/bootstrap.bundle.min.js"></script>
-        
-        <!-- thumbnail grid test code -->
-        <!--<script src="thumbnail-grid.js"></script>-->
-
-        <!-- sql to thumbnail grid interop -->
-        <script src="sql-backend.js"></script>
-
         <!-- php -->
         <?php
-
-        $db_host = getenv('DB_HOST');
-        $db_username = getenv('DB_USERNAME');
-        $db_password = getenv('DB_PASSWORD');
-        $db_name = getenv('DB_NAME');
-
-        $db = mysqli_connect($db_host, $db_username, $db_password, $db_name);
-
         if($_SERVER["REQUEST_METHOD"] == "POST")
         {
-            //echo '<script>console.log("call from php successful!");</script>'; // if you're reading this... it was successful.
-
-            $query = $_POST["searchbox"];
-            $sql_command = "SELECT * FROM images WHERE tags LIKE '%'$query'%'";
-            echo "<script>console.log(\"JS Console Log from PHP: Query string contains: '$query'\");</script>"; // <-- works, note the escape slashes
+            //echo "<script>console.log(\"JS Console Log from PHP: Query string contains: '$query'\");</script>"; // <-- works, note the escape slashes
             //echo "<script>console.log('$query');</script>"; // <-- works
             // trying $sql_command here in lieu of $query leads to issues b/w single and double quotes but it should work in theory
+            
+            $db_host = "localhost";
+            $db_username = "cen4010sp23g03";
+            $db_password = "ASpring#2023";
+            $db_name = "cen4010sp23g03";
+            $db = mysqli_connect($db_host, $db_username, $db_password, $db_name);
+            if (!$db) { die("No connection to MySQL database!" . mysqli_connect_error()); }
 
-            $result = mysqli_query($db, $sql_command);
+            $query = $_POST["searchbox"];
+            
+            $result = mysqli_query($db, "SELECT * FROM images WHERE tags LIKE '%" . $query . "%'");
             $rows = array();
-            while($row = mysqli_fetch_assoc($result))
-            {
-                $rows[] = $row;
-            }
+            while($row = mysqli_fetch_assoc($result)) { $rows[] = $row; }
+            if (!$rows) { echo "<script>console.log('rows php variable was empty!');</script>"; }
 
-            echo json_encode($rows);
-            echo "<script>process_sql_query();</script>";
-
+            $b64 = base64_encode(json_encode($rows));
+            echo "<script>process_sql('$b64');</script>";
         }
 
 
