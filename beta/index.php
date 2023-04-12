@@ -11,32 +11,6 @@
 
 
     </head>
-
-    <?php
-
-    $db_host = getenv('DB_HOST');
-    $db_username = getenv('DB_USERNAME');
-    $db_password = getenv('DB_PASSWORD');
-    $db_name = getenv('DB_NAME');
-
-    $db = mysqli_connect($db_host, $db_username, $db_password, $db_name);
-
-    if($_SERVER["REQUEST_METHOD"] == "POST")
-    {
-        //echo '<script>console.log("call from php successful!");</script>'; // if you're reading this... it was successful.
-        
-        $query = $_POST["searchbox"];
-        $sql_command = "SELECT * FROM images WHERE tags LIKE '%'$query'%'";
-
-        echo "<script>console.log(\"JS Console Log from PHP: Query string contains: '$query'\");</script>"; // <-- works, note the escape slashes
-        echo "<script>console.log('$query');</script>"; // <-- works
-        // trying $sql_command here in lieu of $query leads to issues b/w single and double quotes but it should work in theory
-
-    }
-
-
-    ?>
-
     <body>
 
         <div class="container">
@@ -111,6 +85,48 @@
         
         <!-- thumbnail grid test code -->
         <!--<script src="thumbnail-grid.js"></script>-->
+
+        <!-- sql to thumbnail grid interop -->
+        <script src="sql-backend.js"></script>
+
+        <!-- php -->
+        <?php
+
+        $db_host = getenv('DB_HOST');
+        $db_username = getenv('DB_USERNAME');
+        $db_password = getenv('DB_PASSWORD');
+        $db_name = getenv('DB_NAME');
+
+        $db = mysqli_connect($db_host, $db_username, $db_password, $db_name);
+
+        if($_SERVER["REQUEST_METHOD"] == "POST")
+        {
+            //echo '<script>console.log("call from php successful!");</script>'; // if you're reading this... it was successful.
+
+            $query = $_POST["searchbox"];
+            $sql_command = "SELECT * FROM images WHERE tags LIKE '%'$query'%'";
+            echo "<script>console.log(\"JS Console Log from PHP: Query string contains: '$query'\");</script>"; // <-- works, note the escape slashes
+            //echo "<script>console.log('$query');</script>"; // <-- works
+            // trying $sql_command here in lieu of $query leads to issues b/w single and double quotes but it should work in theory
+
+            $result = mysqli_query($db, $sql_command);
+            $rows = array();
+            while($row = mysqli_fetch_assoc($result))
+            {
+                $rows[] = $row;
+            }
+
+            echo json_encode($rows);
+            echo "<script>process_sql_query();</script>";
+
+        }
+
+
+        ?>
+
+
+
+        
 
     </body>
 </html>
