@@ -19,6 +19,9 @@
         <!-- thumbnail grid -->
         <script src="thumbnail-grid.js"></script>
 
+        <!-- input validator -->
+        <script src="input-validator.js"></script>
+
         <!-- sql to thumbnail grid interop -->
         <script src="sql-backend.php"></script>
 
@@ -70,19 +73,17 @@
                         <form id="save-new-image-modal-form" method="post" action="index.php">
                             <div class="mb-3">
                                 <label for="image-url" class="col-form-label">Image URL:</label>
-                                <input type="text" class="form-control" id="image-url" name="imageurl_input" required>
+                                <input type="text" class="form-control" id="image-url-modal-input-field" name="imageurl_input" required>
                             </div>
                             <div class="mb-3">
                                 <label for="image-tags" class="col-form-label">Specify tags for this image (use , to delimit):</label>
                                 <textarea class="form-control" id="image-tags" name="imagetags_input" required></textarea>
                             </div>
-
-
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary">Save</button>
+                            </div>
                         </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary">Save</button>
                     </div>
                 </div>
             </div>
@@ -139,9 +140,10 @@
 
         </div>
         -->
-
+        <script>validate_image_url();</script>
         <!-- php -->
         <?php
+        //echo "";
         if($_SERVER["REQUEST_METHOD"] == "POST")
         {
             //echo "<script>console.log(\"JS Console Log from PHP: Query string contains: '$query'\");</script>"; // <-- works, note the escape slashes
@@ -155,7 +157,6 @@
             $db = mysqli_connect($db_host, $db_username, $db_password, $db_name);
             if (!$db) { die("No connection to MySQL database!" . mysqli_connect_error()); }
 
-            
             if ($_POST["imageurl_input"] && $_POST["imagetags_input"])
             {
                 // TODO: validate input for image_url
@@ -172,7 +173,7 @@
                 $userid = $_SESSION["user_id"]; // matches user_id found in SQL DB
 
                 // get sha256 hash of image found at url and filename based on url
-                $image_sha256 = hash('sha256', file_get_contents($image_url)); // Is it possible to do this if allow_url_fopen is not enabled?
+                $image_sha256 = hash('sha256', file_get_contents($image_url)); // seems to return the same value each time
 
                 $sql_cmd = "INSERT INTO images (user_id, image_hash, url, tags) VALUES ('$userid', '$image_sha256', '$image_url', '$image_tags')";
                 $result = mysqli_query($db, $sql_cmd);
@@ -185,9 +186,17 @@
             }
             else if ($_POST["searchbox"])
             {
+                session_start();
+                if(!isset($_SESSION["user_id"]))
+                {
+                    echo "User is not logged in!"; // shouldn't happen...
+                    exit;
+                }
+
+                $userid = $_SESSION["user_id"];
                 $query = $_POST["searchbox"];
             
-                $result = mysqli_query($db, "SELECT * FROM images WHERE tags LIKE '%" . $query . "%'");
+                $result = mysqli_query($db, "SELECT * FROM images WHERE user_id = '$userid' AND tags LIKE '%" . $query . "%'");
                 $rows = array();
                 while($row = mysqli_fetch_assoc($result)) { $rows[] = $row; }
                 if (!$rows) { echo "<script>console.log('rows php variable was empty!');</script>"; }
