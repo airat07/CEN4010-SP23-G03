@@ -23,7 +23,7 @@ function show_thumbnails()
         grid.append(`
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="card">
-                    <img src="${images[i]}" class="card-img-top" id="${id}" alt="...">
+                    <img src="${images[i]}" alt="Thumbnail" class="card-img-top" id="${id}">
                     <div class="card-body">
                         <p class="card-text">Thumbnail description goes here</p>
                         
