@@ -1,6 +1,0 @@
-March 29, 2023:
-Update balsamiq mockups to reflect vertical-prototype
-Update README.md with new mockups
-Complete Milestone 3 write up
-
-This TODO is also present on trello board: https://trello.com/b/Jgf5xGCB/project-checklist
