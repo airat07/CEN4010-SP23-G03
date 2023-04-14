@@ -79,9 +79,35 @@
                                 <label for="image-tags" class="col-form-label">Specify tags for this image (use , to delimit):</label>
                                 <textarea class="form-control" id="image-tags" name="imagetags_input" required></textarea>
                             </div>
+                            <div id="modal-info-area"></div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                <button type="button" class="btn btn-primary">Save</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Image Modal -->
+        <div class="modal fade" id="manage-image-modal" tabindex="-1" aria-labelledby="manage-image-modal-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="modal-title fs-5" id="manage-image-modal-label">Delete Image</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="manage-image-modal-form" method="post" action="index.php">
+                            <div class="mb-3">
+                                <label for="image-url" class="col-form-label">Image URL:</label>
+                                <input type="text" class="form-control" id="manage-image-modal-url-input-field" name="manage_imageurl_input" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-danger">Delete</button> <!-- todo -->
                             </div>
                         </form>
                     </div>
@@ -89,58 +115,32 @@
             </div>
         </div>
 
+        <!-- Tags column -->
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
                     <div id="tags-column">
-                    <!-- Tags list will be added here dynamically -->
-
                         <div class="card">
                             <div class="card-body">
                                 <h2 class="card-title">Tags</h2>
                                 <ul class="list-group tag-list" id="the-tag-list">
-                                    <!-- to be dynamically generated -->
+                                    <!-- generated from thumbnail-grid.js -->
                                 </ul>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
-
         </div>
 
+        <!-- Thumbnail grid -->
         <div class="container-fluid">
-                
             <div class="row" id="thumbnail-grid">
-                <!-- Thumbnail grid will be added here dynamically -->
-                    
-                
-
+                <!-- generated from thumbnail-grid.js -->
             </div>
-                
-            
         </div>
-          
 
-        <!--
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-2"><h1>Column one</h1></div>
-
-                <div class="col-sm-10">
-                    <h1>Column two</h1>
-                    
-                    <div class="row" id="image-grid">
-                    </div>
-
-
-                </div>
-            </div>
-
-        </div>
-        -->
         <script>validate_image_url();</script>
+
         <!-- php -->
         <?php
         //echo "";
@@ -203,17 +203,8 @@
     
                 $b64 = base64_encode(json_encode($rows));
                 echo "<script>process_sql('$b64');</script>";
-            }
-
-            
+            }   
         }
-
-
         ?>
-
-
-
-        
-
     </body>
 </html>

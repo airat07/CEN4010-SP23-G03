@@ -29,6 +29,18 @@ function set_thumbnail_callbacks_and_populate_tag_list(tags_arr)
             }
 
         });
+
+        let thumbnail_manage_button = $("#thumb-manage-button-id-" + index.toString());
+        let thumbnail_image_source_url = $("#thumb-img-id-" + index.toString()).attr("src");
+
+        // set a callback for this button that will autopopulate modal field with image url when modal is launched (launched using same button)
+        thumbnail_manage_button.off().on("click", function(event)
+        {
+            console.log(index);
+            let manage_img_url_input_field = $("#manage-image-modal-url-input-field");
+            manage_img_url_input_field.val(thumbnail_image_source_url);
+        });
+
         
     
     });
@@ -45,14 +57,11 @@ function show_thumbnails(images_arr, tags_arr)
         grid.append(`
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="card">
-                    <img src="${images_arr[i]}" class="card-img-top" id="${grid_id}" alt="...">
+                    <img src="${images_arr[i]}" class="card-img-top" id="thumb-img-id-${grid_id}" alt="...">
                     <div class="card-body">
-                        <p class="card-text">Thumbnail description goes here</p>
-                        
-    
+                        <button type="button" class="btn btn-outline-danger btn-sm manage-image-button" data-bs-toggle="modal" data-bs-target="#manage-image-modal" id="thumb-manage-button-id-${grid_id}">Delete</button>
                     </div>
                 </div>
-    
             </div>`);
     }
     set_thumbnail_callbacks_and_populate_tag_list(tags_arr);
