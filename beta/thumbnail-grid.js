@@ -5,33 +5,27 @@ function set_thumbnail_callbacks_and_populate_tag_list(tags_arr)
 {
     // TODO: when clicking off a thumbnail (clicking on whitespace), show all tags for all listed images
     
-    var grid = $("#thumbnail-grid");
     var thumbnails = $(".card-img-top");
     thumbnails.each(function(index)
     {
-        //console.log(index + ": " + $(this).attr("id"));
-        thumbnails.off().on("click", function(event)
-        {
-            //console.log("this thumbnail id is: " + $(this).attr("id"));
-            event.stopPropagation();
-            console.log(parseInt($(this).attr("id")));
-            thumbnail_id = parseInt($(this).attr("id")); // id attribute is set when thumbnails are populated into grid
+        let thumbnail_manage_button = $("#thumb-manage-button-id-" + index.toString());
+        let thumbnail = $("#thumb-img-id-" + index.toString());
+        let thumbnail_image_source_url = thumbnail.attr("src");
 
-            var taglist = $("#the-tag-list");
+        thumbnail.off().on("click", function(event)
+        {
+            console.log(index);
+            let taglist = $("#the-tag-list");
             taglist.html("");
-            for(var i = 0; i < tags_arr[thumbnail_id].length; i++)
+            for(let i = 0; i < tags_arr[index].length; i++)
             {
                 taglist.append(
                     `
-                        <li class="list-group-item">${tags_arr[thumbnail_id][i]}</li>
+                        <li class="list-group-item">${tags_arr[index][i]}</li>
                     `
                 );
             }
-
         });
-
-        let thumbnail_manage_button = $("#thumb-manage-button-id-" + index.toString());
-        let thumbnail_image_source_url = $("#thumb-img-id-" + index.toString()).attr("src");
 
         // set a callback for this button that will autopopulate modal field with image url when modal is launched (launched using same button)
         thumbnail_manage_button.off().on("click", function(event)
@@ -40,9 +34,6 @@ function set_thumbnail_callbacks_and_populate_tag_list(tags_arr)
             let manage_img_url_input_field = $("#manage-image-modal-url-input-field");
             manage_img_url_input_field.val(thumbnail_image_source_url);
         });
-
-        
-    
     });
 }
 

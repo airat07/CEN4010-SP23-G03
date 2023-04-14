@@ -96,7 +96,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2 class="modal-title fs-5" id="manage-image-modal-label">Delete Image</h2>
+                        <h3 class="modal-title fs-5" id="manage-image-modal-label">Delete this image?</h3>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
                     </div>
                     <div class="modal-body">
@@ -183,6 +183,22 @@
                 }
 
 
+            }
+            else if($_POST["manage_imageurl_input"])
+            {
+                session_start();
+                if(!isset($_SESSION["user_id"]))
+                {
+                    echo "User is not logged in!";
+                    exit;
+                }
+
+                $userid = $_SESSION["user_id"];
+                $image_url = $_POST["manage_imageurl_input"];
+
+                $result = mysqli_query($db, "DELETE FROM images WHERE url = '$image_url'");
+
+                // TODO: show friendly message informing of successful deletion
             }
             else if ($_POST["searchbox"])
             {
